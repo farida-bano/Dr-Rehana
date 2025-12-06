@@ -1,0 +1,1 @@
+/Users/sarosh/Desktop/book/robotic/specs/001-physical-ai-book/chapters/ch02_hardware_stack.md

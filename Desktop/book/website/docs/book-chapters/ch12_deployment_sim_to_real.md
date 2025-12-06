@@ -1,0 +1,1 @@
+/Users/sarosh/Desktop/book/robotic/specs/001-physical-ai-book/chapters/ch12_deployment_sim_to_real.md
