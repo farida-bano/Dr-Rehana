@@ -1,0 +1,20 @@
+{
+    "data_sources": [
+        {
+            "type": "directory",
+            "path": "book/summaries"
+        }
+    ],
+    "text_splitter": {
+        "chunk_size": 500,
+        "chunk_overlap": 50
+    },
+    "embeddings": {
+        "type": "HuggingFaceEmbeddings",
+        "model_name": "sentence-transformers/all-MiniLM-L6-v2"
+    },
+    "vectorstore": {
+        "type": "InMemoryVectorStore",
+        "path": "vectorstore.pkl"
+    }
+}
