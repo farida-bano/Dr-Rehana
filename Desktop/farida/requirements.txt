@@ -1,11 +1,11 @@
 fastapi
-uvicorn[standard]
+uvicorn
 sqlmodel
-pyjwt[cryptography]
+pyjwt
 asyncpg
 pydantic-settings
 python-dotenv
-passlib[bcrypt]
+passlib
 python-multipart
 cohere
 greenlet
