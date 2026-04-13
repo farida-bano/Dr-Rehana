@@ -1,0 +1,64 @@
+.chatButton {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  z-index: 9999;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: float 3s ease-in-out infinite;
+}
+
+.chatButton:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.6);
+}
+
+.chatButton:active {
+  transform: scale(0.95) rotate(-5deg);
+}
+
+.icon {
+  color: white;
+  width: 28px;
+  height: 28px;
+}
+
+/* Float animation for the floating button */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Pulse animation for the floating button */
+.pulse {
+  animation: pulse 2s infinite, float 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(102, 126, 234, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+  }
+}
