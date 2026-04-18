@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-bases:
+resources:
   - ../../base
 
 replicas:
@@ -14,8 +14,11 @@ replicas:
   - name: kafka
     count: 1
 
-patchesStrategicMerge:
-  - deployment-patch.yaml
+patches:
+  - path: deployment-patch.yaml
+    target:
+      kind: Deployment
+      name: digital-fte-backend
 
 configMapGenerator:
   - name: digital-fte-config
