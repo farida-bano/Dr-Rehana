@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+  - ../../base
+
+replicas:
+  - name: digital-fte-backend
+    count: 3
+  - name: postgres
+    count: 1
+  - name: redis
+    count: 1
+  - name: kafka
+    count: 3
+
+patchesStrategicMerge:
+  - deployment-patch.yaml
+
+configMapGenerator:
+  - name: digital-fte-config
+    behavior: merge
+    literals:
+      - LOG_LEVEL=INFO
+      - ENABLE_METRICS=true
+      - ENABLE_AUDIT_LOGGING=true
+
+namespace: prod
