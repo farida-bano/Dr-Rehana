@@ -33,6 +33,8 @@ export async function POST(request: Request) {
         notes,
         items: {
           create: items.map((item: any) => ({
+            quantity: item.quantity,
+            price: item.price,
             menuItem: {
               connectOrCreate: {
                 where: { slug: item.name.toLowerCase().replace(/\s+/g, '-') },
@@ -40,12 +42,18 @@ export async function POST(request: Request) {
                   name: item.name,
                   slug: item.name.toLowerCase().replace(/\s+/g, '-'),
                   price: item.price,
-                  categoryId: 'default', // Will need to be updated with real category
+                  category: {
+                    connectOrCreate: {
+                      where: { slug: 'other' },
+                      create: {
+                        name: 'Other',
+                        slug: 'other',
+                      },
+                    },
+                  },
                 },
               },
             },
-            quantity: item.quantity,
-            price: item.price,
           })),
         },
       },

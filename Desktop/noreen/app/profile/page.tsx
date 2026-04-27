@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { Plus, Trash2, MapPin, Phone, Mail } from 'lucide-react';
 import { AddressForm } from '@/components/address-form';
@@ -15,17 +15,30 @@ interface Address {
 
 export default function ProfilePage() {
   const { user, isLoaded } = useUser();
-  const [addresses, setAddresses] = useState<Address[]>([
-    {
-      id: '1',
-      street: '123 Main Street, Apt 4B',
-      city: 'Karachi',
-      postalCode: '75500',
-      isDefault: true,
-    },
-  ]);
+  const [addresses, setAddresses] = useState<Address[]>([]);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (isLoaded && user) {
+      fetchAddresses();
+    }
+  }, [isLoaded, user]);
+
+  const fetchAddresses = async () => {
+    try {
+      const response = await fetch('/api/addresses');
+      if (response.ok) {
+        const data = await response.json();
+        setAddresses(data);
+      }
+    } catch (error) {
+      console.error('Error fetching addresses:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   if (!isLoaded) {
     return <div className="text-center py-12">Loading...</div>;
@@ -39,39 +52,57 @@ export default function ProfilePage() {
     );
   }
 
-  const handleAddAddress = (data: { street: string; city: string; postalCode: string; isDefault?: boolean }) => {
-    const address: Address = {
-      id: editingAddress?.id || Date.now().toString(),
-      street: data.street,
-      city: data.city,
-      postalCode: data.postalCode,
-      isDefault: data.isDefault || false,
-    };
+  const handleAddAddress = async (data: { street: string; city: string; postalCode: string; isDefault?: boolean }) => {
+    try {
+      const method = editingAddress ? 'PUT' : 'POST';
+      const endpoint = editingAddress ? `/api/addresses/${editingAddress.id}` : '/api/addresses';
 
-    if (editingAddress) {
-      setAddresses(
-        addresses.map((a) =>
-          a.id === editingAddress.id ? address : a
-        )
-      );
-      setEditingAddress(null);
-    } else {
-      setAddresses([...addresses, address]);
+      const response = await fetch(endpoint, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        await fetchAddresses();
+        setShowAddressForm(false);
+        setEditingAddress(null);
+      }
+    } catch (error) {
+      console.error('Error saving address:', error);
+      alert('Failed to save address');
     }
-    setShowAddressForm(false);
   };
 
-  const handleDeleteAddress = (id: string) => {
-    setAddresses(addresses.filter((a) => a.id !== id));
+  const handleDeleteAddress = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this address?')) return;
+
+    try {
+      const response = await fetch(`/api/addresses/${id}`, { method: 'DELETE' });
+      if (response.ok) {
+        await fetchAddresses();
+      }
+    } catch (error) {
+      console.error('Error deleting address:', error);
+      alert('Failed to delete address');
+    }
   };
 
-  const handleSetDefault = (id: string) => {
-    setAddresses(
-      addresses.map((a) => ({
-        ...a,
-        isDefault: a.id === id,
-      }))
-    );
+  const handleSetDefault = async (id: string) => {
+    try {
+      const response = await fetch(`/api/addresses/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isDefault: true }),
+      });
+
+      if (response.ok) {
+        await fetchAddresses();
+      }
+    } catch (error) {
+      console.error('Error setting default address:', error);
+      alert('Failed to set default address');
+    }
   };
 
   return (
