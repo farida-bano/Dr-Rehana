@@ -86,7 +86,7 @@ const config = {
         title: 'Physical AI & Robotics',
         logo: {
           alt: 'Physical AI Logo',
-          src: 'img/logo.svg',
+          src: 'img/logo.png',
         },
         items: [
           {
