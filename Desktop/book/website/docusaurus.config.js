@@ -10,8 +10,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'Physical AI & Humanoid Robotics',
+  tagline: 'A comprehensive guide to embodied intelligence, ROS 2, simulation, and deployment',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -20,15 +20,15 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://physical-ai-robotics.example.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'sarosh', // Usually your GitHub org/user name.
+  projectName: 'physical-ai-book', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
@@ -83,9 +83,9 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'My Site',
+        title: 'Physical AI & Robotics',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'Physical AI Logo',
           src: 'img/logo.svg',
         },
         items: [
@@ -93,11 +93,11 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Book Chapters',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/blog', label: 'Updates', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/sarosh/physical-ai-book',
             label: 'GitHub',
             position: 'right',
           },
@@ -107,28 +107,36 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Book Chapters',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Part 1: Foundations',
+                to: '/docs/book-chapters/ch01_introduction',
+              },
+              {
+                label: 'Part 2: Simulation & Perception',
+                to: '/docs/book-chapters/ch05_gazebo_simulation',
+              },
+              {
+                label: 'Part 3: AI Integration',
+                to: '/docs/book-chapters/ch09_language_task_planning',
               },
             ],
           },
           {
-            title: 'Community',
+            title: 'Resources',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'ROS 2 Documentation',
+                href: 'https://docs.ros.org/en/humble/',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: 'Gazebo Simulation',
+                href: 'https://gazebosim.org/',
               },
               {
-                label: 'X',
-                href: 'https://x.com/docusaurus',
+                label: 'NVIDIA Isaac Sim',
+                href: 'https://developer.nvidia.com/isaac-sim',
               },
             ],
           },
@@ -136,17 +144,17 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'GitHub Repository',
+                href: 'https://github.com/sarosh/physical-ai-book',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'Report Issues',
+                href: 'https://github.com/sarosh/physical-ai-book/issues',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Physical AI & Robotics. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.github,
