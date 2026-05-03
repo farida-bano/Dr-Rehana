@@ -1,4 +1,5 @@
 ---
+id: ch04_robot_description_kinematics
 sidebar_position: 4
 ---
 

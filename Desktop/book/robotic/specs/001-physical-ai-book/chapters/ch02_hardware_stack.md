@@ -1,4 +1,5 @@
 ---
+id: ch02_hardware_stack
 sidebar_position: 2
 ---
 

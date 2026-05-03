@@ -1,4 +1,5 @@
 ---
+id: ch11_capstone_projects
 sidebar_position: 11
 ---
 

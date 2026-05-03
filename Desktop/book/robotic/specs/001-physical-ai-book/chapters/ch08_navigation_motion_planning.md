@@ -1,4 +1,5 @@
 ---
+id: ch08_navigation_motion_planning
 sidebar_position: 8
 ---
 

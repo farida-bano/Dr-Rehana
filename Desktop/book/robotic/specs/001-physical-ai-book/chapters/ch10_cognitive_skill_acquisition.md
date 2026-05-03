@@ -1,4 +1,5 @@
 ---
+id: ch10_cognitive_skill_acquisition
 sidebar_position: 10
 ---
 
