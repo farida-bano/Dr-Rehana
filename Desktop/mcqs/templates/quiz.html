@@ -11,48 +11,96 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            color: var(--gray-900);
         }
 
         .container {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.05);
+            max-width: 900px;
             width: 100%;
-            padding: 40px;
+            padding: 50px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .header h1 {
-            color: #667eea;
-            font-size: 28px;
-            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
         }
 
         .header p {
-            color: #666;
-            font-size: 14px;
+            color: var(--gray-500);
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
         }
 
         .form-section {
-            margin-bottom: 30px;
             display: none;
+            animation: fadeIn 0.3s ease-out;
         }
 
         .form-section.active {
             display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-section h2 {
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: var(--gray-900);
+            font-weight: 600;
         }
 
         .input-group {
@@ -61,48 +109,108 @@
 
         .input-group label {
             display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--gray-700);
+            font-weight: 600;
             font-size: 14px;
+            letter-spacing: 0.3px;
         }
 
         .input-group input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: border-color 0.3s;
+            padding: 14px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.2s;
+            background: var(--gray-50);
+        }
+
+        .input-group input::placeholder {
+            color: var(--gray-300);
         }
 
         .input-group input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
         .quiz-section {
-            margin-bottom: 30px;
             display: none;
         }
 
         .quiz-section.active {
             display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .progress-section {
+            margin-bottom: 35px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .question-counter {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+            background: var(--gray-100);
+            padding: 6px 12px;
+            border-radius: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .answered-counter {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            transition: width 0.3s ease-out;
+            border-radius: 10px;
+        }
+
+        .question-section {
+            margin-bottom: 35px;
         }
 
         .question-number {
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 8px;
-            font-weight: 600;
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .question-text {
-            font-size: 16px;
-            color: #333;
+            font-size: 18px;
+            color: var(--gray-900);
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             line-height: 1.6;
+            letter-spacing: -0.3px;
         }
 
         .options {
@@ -114,142 +222,260 @@
         .option {
             display: flex;
             align-items: center;
-            padding: 15px;
-            border: 2px solid #eee;
-            border-radius: 5px;
+            padding: 18px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            background: white;
         }
 
         .option:hover {
-            border-color: #667eea;
-            background: #f8f9ff;
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+            transform: translateX(4px);
         }
 
         .option input[type="radio"] {
-            margin-right: 12px;
+            margin-right: 14px;
             cursor: pointer;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
         }
 
         .option label {
             flex: 1;
             cursor: pointer;
             margin: 0;
-            font-weight: normal;
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--gray-700);
+            letter-spacing: 0.2px;
         }
 
         .option input[type="radio"]:checked + label {
-            color: #667eea;
+            color: var(--primary);
             font-weight: 600;
         }
 
         .buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 30px;
+            gap: 12px;
+            margin-top: 35px;
         }
 
         button {
             flex: 1;
-            padding: 12px 20px;
+            padding: 14px 24px;
             border: none;
-            border-radius: 5px;
-            font-size: 14px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
         }
 
         .btn-primary {
-            background: #667eea;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
-        .btn-primary:hover {
-            background: #5568d3;
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
         }
 
         .btn-primary:disabled {
-            background: #ccc;
+            opacity: 0.5;
             cursor: not-allowed;
         }
 
         .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border: 2px solid var(--gray-200);
         }
 
-        .btn-secondary:hover {
-            background: #e0e0e0;
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--gray-200);
+            border-color: var(--gray-300);
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #eee;
-            border-radius: 3px;
-            margin-bottom: 20px;
-            overflow: hidden;
+        .btn-submit {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
-        .progress-fill {
-            height: 100%;
-            background: #667eea;
-            transition: width 0.3s;
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
         }
 
         .result-section {
-            text-align: center;
             display: none;
+            text-align: center;
+            animation: fadeIn 0.3s ease-out;
         }
 
         .result-section.active {
             display: block;
         }
 
-        .score-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 10px;
+        .result-section h2 {
+            font-size: 26px;
             margin-bottom: 30px;
+            color: var(--gray-900);
+            font-weight: 700;
         }
 
-        .score-card .score-number {
-            font-size: 60px;
-            font-weight: bold;
-            margin: 20px 0;
+        .score-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 16px;
+            margin-bottom: 35px;
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
         }
 
         .score-card .score-label {
             font-size: 14px;
-            opacity: 0.9;
+            opacity: 0.95;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
-        .result-section a {
+        .score-card .score-number {
+            font-size: 64px;
+            font-weight: 700;
+            margin: 16px 0;
+            letter-spacing: -1px;
+        }
+
+        .score-card .percentage {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 600;
+        }
+
+        .grade-display {
+            margin-top: 24px;
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.95;
+        }
+
+        .grade-letter {
+            font-size: 48px;
+            font-weight: 700;
             display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: #667eea;
+            margin-left: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 24px;
+            border-radius: 8px;
+        }
+
+        .result-section p {
+            color: var(--gray-600);
+            margin-bottom: 30px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .result-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .result-links a {
+            display: inline-block;
+            padding: 12px 28px;
+            background: var(--primary);
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 10px;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
-        .result-section a:hover {
-            background: #5568d3;
+        .result-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
         }
 
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 10px;
+        .result-links a:nth-child(2) {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            box-shadow: none;
+        }
+
+        .result-links a:nth-child(2):hover {
+            background: var(--gray-200);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            button {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            .score-card {
+                padding: 35px 25px;
+            }
+
+            .score-card .score-number {
+                font-size: 48px;
+            }
+
+            .question-text {
+                font-size: 16px;
+            }
+
+            .option {
+                padding: 15px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn-secondary {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -258,56 +484,62 @@
         <!-- Header -->
         <div class="header">
             <h1>🤖 AI Agent Factory</h1>
-            <p>Exam Preparation - Multiple Choice Questions</p>
+            <p>Master the AI-Native Future - 60 Question Assessment</p>
         </div>
 
         <!-- Student Info Form -->
         <div class="form-section active" id="formSection">
-            <h2 style="margin-bottom: 20px; color: #333;">Enter Your Details</h2>
+            <h2>Get Started</h2>
             <div class="input-group">
-                <label for="name">Name *</label>
-                <input type="text" id="name" placeholder="Your full name" required>
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Enter your full name" required>
             </div>
             <div class="input-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" placeholder="your.email@example.com" required>
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email address" required>
             </div>
             <div class="buttons">
-                <button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+                <button class="btn-primary" onclick="startQuiz()">Begin Assessment →</button>
             </div>
         </div>
 
         <!-- Quiz Questions -->
         <div class="quiz-section" id="quizSection">
-            <div class="progress-info">
-                <span id="questionNumber">Question 1</span>
-                <span id="answered">Answered: 0</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+            <div class="progress-section">
+                <div class="progress-info">
+                    <span class="question-counter" id="questionNumber">Question 1 of 60</span>
+                    <span class="answered-counter" id="answered">✓ Answered: 0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                </div>
             </div>
 
-            <div id="questionContainer"></div>
+            <div class="question-section" id="questionContainer"></div>
 
             <div class="buttons">
                 <button class="btn-secondary" id="prevBtn" onclick="previousQuestion()" style="display:none;">← Previous</button>
                 <button class="btn-primary" id="nextBtn" onclick="nextQuestion()">Next →</button>
-                <button class="btn-primary" id="submitBtn" onclick="submitQuiz()" style="display:none; background: #10b981;">Submit Quiz</button>
+                <button class="btn-primary btn-submit" id="submitBtn" onclick="submitQuiz()" style="display:none;">Complete & Submit ✓</button>
             </div>
         </div>
 
         <!-- Results -->
         <div class="result-section" id="resultSection">
-            <h2 style="margin-bottom: 20px; color: #333;">Quiz Completed!</h2>
+            <h2>Assessment Complete! 🎉</h2>
             <div class="score-card">
                 <div class="score-label">Your Score</div>
-                <div class="score-number" id="finalScore">0/20</div>
-                <div class="score-label" id="percentageScore">0%</div>
-                <div style="font-size: 32px; font-weight: bold; margin-top: 20px;">Grade: <span id="gradeDisplay">-</span></div>
+                <div class="score-number" id="finalScore">0/60</div>
+                <div class="percentage" id="percentageScore">0%</div>
+                <div class="grade-display">
+                    Grade: <span class="grade-letter" id="gradeDisplay">-</span>
+                </div>
             </div>
-            <p style="color: #666; margin-bottom: 20px;">Thank you for completing the quiz. Your responses have been recorded.</p>
-            <a href="/results">View All Results</a>
-            <a href="/" style="margin-left: 10px;">Take Quiz Again</a>
+            <p>Thank you for completing the AI Agent Factory assessment. Your responses have been recorded and will be analyzed.</p>
+            <div class="result-links">
+                <a href="/results">📊 View All Results</a>
+                <a href="/">🔄 Retake Assessment</a>
+            </div>
         </div>
     </div>
 
@@ -318,7 +550,6 @@
         let name = '';
         let email = '';
 
-        // Load questions on page load
         document.addEventListener('DOMContentLoaded', function() {
             fetch('/api/questions')
                 .then(r => r.json())
@@ -365,18 +596,17 @@
             html += '</div>';
             document.getElementById('questionContainer').innerHTML = html;
 
-            // Update buttons
             document.getElementById('prevBtn').style.display = currentQuestion === 0 ? 'none' : 'block';
             document.getElementById('nextBtn').style.display = currentQuestion === questions.length - 1 ? 'none' : 'block';
             document.getElementById('submitBtn').style.display = currentQuestion === questions.length - 1 ? 'block' : 'none';
 
-            document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1}`;
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
             updateProgress();
         }
 
         function updateProgress() {
             const answered = Object.keys(answers).length;
-            document.getElementById('answered').textContent = `Answered: ${answered}`;
+            document.getElementById('answered').textContent = `✓ Answered: ${answered}`;
             const progressPercent = ((currentQuestion + 1) / questions.length) * 100;
             document.getElementById('progressFill').style.width = progressPercent + '%';
         }
@@ -398,7 +628,7 @@
         function submitQuiz() {
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
+            submitBtn.textContent = '<span class="loading"></span> Submitting...';
 
             fetch('/api/submit', {
                 method: 'POST',
@@ -426,7 +656,7 @@
             .catch(error => {
                 alert('Error submitting quiz: ' + error.message);
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Quiz';
+                submitBtn.textContent = 'Complete & Submit ✓';
             });
         }
     </script>
