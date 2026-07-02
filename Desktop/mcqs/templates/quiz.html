@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent Factory - MCQ Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .quiz-section {
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .quiz-section.active {
+            display: block;
+        }
+
+        .question-number {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .option label {
+            flex: 1;
+            cursor: pointer;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .option input[type="radio"]:checked + label {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #667eea;
+            transition: width 0.3s;
+        }
+
+        .result-section {
+            text-align: center;
+            display: none;
+        }
+
+        .result-section.active {
+            display: block;
+        }
+
+        .score-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .score-card .score-number {
+            font-size: 60px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .score-card .score-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .result-section a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .result-section a:hover {
+            background: #5568d3;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 AI Agent Factory</h1>
+            <p>Exam Preparation - Multiple Choice Questions</p>
+        </div>
+
+        <!-- Student Info Form -->
+        <div class="form-section active" id="formSection">
+            <h2 style="margin-bottom: 20px; color: #333;">Enter Your Details</h2>
+            <div class="input-group">
+                <label for="name">Name *</label>
+                <input type="text" id="name" placeholder="Your full name" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" placeholder="your.email@example.com" required>
+            </div>
+            <div class="buttons">
+                <button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+            </div>
+        </div>
+
+        <!-- Quiz Questions -->
+        <div class="quiz-section" id="quizSection">
+            <div class="progress-info">
+                <span id="questionNumber">Question 1</span>
+                <span id="answered">Answered: 0</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+
+            <div id="questionContainer"></div>
+
+            <div class="buttons">
+                <button class="btn-secondary" id="prevBtn" onclick="previousQuestion()" style="display:none;">← Previous</button>
+                <button class="btn-primary" id="nextBtn" onclick="nextQuestion()">Next →</button>
+                <button class="btn-primary" id="submitBtn" onclick="submitQuiz()" style="display:none; background: #10b981;">Submit Quiz</button>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="result-section" id="resultSection">
+            <h2 style="margin-bottom: 20px; color: #333;">Quiz Completed!</h2>
+            <div class="score-card">
+                <div class="score-label">Your Score</div>
+                <div class="score-number" id="finalScore">0/20</div>
+                <div class="score-label" id="percentageScore">0%</div>
+            </div>
+            <p style="color: #666; margin-bottom: 20px;">Thank you for completing the quiz. Your responses have been recorded.</p>
+            <a href="/results">View All Results</a>
+            <a href="/" style="margin-left: 10px;">Take Quiz Again</a>
+        </div>
+    </div>
+
+    <script>
+        let questions = [];
+        let currentQuestion = 0;
+        let answers = {};
+        let name = '';
+        let email = '';
+
+        // Load questions on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/questions')
+                .then(r => r.json())
+                .then(data => {
+                    questions = data;
+                });
+        });
+
+        function startQuiz() {
+            name = document.getElementById('name').value.trim();
+            email = document.getElementById('email').value.trim();
+
+            if (!name || !email) {
+                alert('Please enter both name and email');
+                return;
+            }
+
+            document.getElementById('formSection').classList.remove('active');
+            document.getElementById('quizSection').classList.add('active');
+            currentQuestion = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            let html = `
+                <div class="question-number">Question ${currentQuestion + 1}</div>
+                <div class="question-text">${q.question}</div>
+                <div class="options">
+            `;
+
+            q.options.forEach((opt, idx) => {
+                const optionLetter = String.fromCharCode(65 + idx);
+                const isChecked = answers[q.id] === optionLetter ? 'checked' : '';
+                html += `
+                    <div class="option">
+                        <input type="radio" id="opt${idx}" name="option" value="${optionLetter}" ${isChecked}
+                               onchange="answers[${q.id}] = '${optionLetter}'; updateProgress();">
+                        <label for="opt${idx}">${optionLetter}. ${opt}</label>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            document.getElementById('questionContainer').innerHTML = html;
+
+            // Update buttons
+            document.getElementById('prevBtn').style.display = currentQuestion === 0 ? 'none' : 'block';
+            document.getElementById('nextBtn').style.display = currentQuestion === questions.length - 1 ? 'none' : 'block';
+            document.getElementById('submitBtn').style.display = currentQuestion === questions.length - 1 ? 'block' : 'none';
+
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1}`;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(answers).length;
+            document.getElementById('answered').textContent = `Answered: ${answered}`;
+            const progressPercent = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function submitQuiz() {
+            fetch('/api/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    answers: answers
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('quizSection').classList.remove('active');
+                document.getElementById('resultSection').classList.add('active');
+                document.getElementById('finalScore').textContent = `${data.score}/${data.total}`;
+                document.getElementById('percentageScore').textContent = data.percentage;
+            });
+        }
+    </script>
+</body>
+</html>
