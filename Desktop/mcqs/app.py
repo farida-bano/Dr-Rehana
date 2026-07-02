@@ -3,21 +3,25 @@ import json
 import csv
 from datetime import datetime
 from pathlib import Path
+import os
 
 app = Flask(__name__)
 
+# Get the directory of the app file
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Load questions
-with open('questions.json', 'r') as f:
+with open(os.path.join(APP_DIR, 'questions.json'), 'r') as f:
     questions = json.load(f)
 
 # Results file
-RESULTS_FILE = 'results.csv'
+RESULTS_FILE = os.path.join(APP_DIR, 'results.csv')
 
 # Initialize CSV if doesn't exist
 if not Path(RESULTS_FILE).exists():
     with open(RESULTS_FILE, 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['Name', 'Email', 'Score', 'Total', 'Percentage', 'Timestamp'])
+        writer.writerow(['Name', 'Email', 'Score', 'Total', 'Percentage', 'Grade', 'Timestamp'])
 
 @app.route('/')
 def index():
@@ -36,6 +40,19 @@ def get_questions():
         safe_questions.append(safe_q)
     return jsonify(safe_questions)
 
+def get_grade(percentage):
+    """Convert percentage to letter grade"""
+    if percentage >= 90:
+        return 'A'
+    elif percentage >= 80:
+        return 'B'
+    elif percentage >= 70:
+        return 'C'
+    elif percentage >= 60:
+        return 'D'
+    else:
+        return 'F'
+
 @app.route('/api/submit', methods=['POST'])
 def submit_quiz():
     data = request.json
@@ -53,17 +70,19 @@ def submit_quiz():
 
     total = len(questions)
     percentage = (score / total) * 100
+    grade = get_grade(percentage)
 
     # Save to CSV
     with open(RESULTS_FILE, 'a', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow([name, email, score, total, f"{percentage:.1f}%", datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
+        writer.writerow([name, email, score, total, f"{percentage:.1f}%", grade, datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
 
     return jsonify({
         'success': True,
         'score': score,
         'total': total,
-        'percentage': f"{percentage:.1f}%"
+        'percentage': f"{percentage:.1f}%",
+        'grade': grade
     })
 
 @app.route('/results')
