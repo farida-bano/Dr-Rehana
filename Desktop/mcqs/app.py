@@ -55,35 +55,47 @@ def get_grade(percentage):
 
 @app.route('/api/submit', methods=['POST'])
 def submit_quiz():
-    data = request.json
-    name = data.get('name', 'Anonymous')
-    email = data.get('email', 'unknown@example.com')
-    answers = data.get('answers', {})
+    try:
+        data = request.json
+        if not data:
+            return jsonify({'success': False, 'error': 'No data provided'}), 400
 
-    # Calculate score
-    score = 0
-    for q in questions:
-        q_id = str(q['id'])
-        if q_id in answers:
-            if answers[q_id] == q['correct']:
-                score += 1
+        name = data.get('name', 'Anonymous').strip()
+        email = data.get('email', 'unknown@example.com').strip()
+        answers = data.get('answers', {})
 
-    total = len(questions)
-    percentage = (score / total) * 100
-    grade = get_grade(percentage)
+        # Validate inputs
+        if not name or len(name) > 100:
+            return jsonify({'success': False, 'error': 'Invalid name'}), 400
+        if not email or len(email) > 100:
+            return jsonify({'success': False, 'error': 'Invalid email'}), 400
 
-    # Save to CSV
-    with open(RESULTS_FILE, 'a', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow([name, email, score, total, f"{percentage:.1f}%", grade, datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
+        # Calculate score
+        score = 0
+        for q in questions:
+            q_id = str(q['id'])
+            if q_id in answers:
+                if answers[q_id] == q['correct']:
+                    score += 1
 
-    return jsonify({
-        'success': True,
-        'score': score,
-        'total': total,
-        'percentage': f"{percentage:.1f}%",
-        'grade': grade
-    })
+        total = len(questions)
+        percentage = (score / total) * 100
+        grade = get_grade(percentage)
+
+        # Save to CSV
+        with open(RESULTS_FILE, 'a', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([name, email, score, total, f"{percentage:.1f}%", grade, datetime.now().strftime('%Y-%m-%d %H:%M:%S')])
+
+        return jsonify({
+            'success': True,
+            'score': score,
+            'total': total,
+            'percentage': f"{percentage:.1f}%",
+            'grade': grade
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/results')
 def view_results():

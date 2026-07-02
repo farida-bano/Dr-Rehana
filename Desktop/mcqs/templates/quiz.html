@@ -303,6 +303,7 @@
                 <div class="score-label">Your Score</div>
                 <div class="score-number" id="finalScore">0/20</div>
                 <div class="score-label" id="percentageScore">0%</div>
+                <div style="font-size: 32px; font-weight: bold; margin-top: 20px;">Grade: <span id="gradeDisplay">-</span></div>
             </div>
             <p style="color: #666; margin-bottom: 20px;">Thank you for completing the quiz. Your responses have been recorded.</p>
             <a href="/results">View All Results</a>
@@ -395,6 +396,10 @@
         }
 
         function submitQuiz() {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
             fetch('/api/submit', {
                 method: 'POST',
                 headers: {
@@ -406,12 +411,22 @@
                     answers: answers
                 })
             })
-            .then(r => r.json())
+            .then(r => {
+                if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
+                return r.json();
+            })
             .then(data => {
+                if (!data.success) throw new Error(data.error || 'Submission failed');
                 document.getElementById('quizSection').classList.remove('active');
                 document.getElementById('resultSection').classList.add('active');
                 document.getElementById('finalScore').textContent = `${data.score}/${data.total}`;
                 document.getElementById('percentageScore').textContent = data.percentage;
+                document.getElementById('gradeDisplay').textContent = data.grade;
+            })
+            .catch(error => {
+                alert('Error submitting quiz: ' + error.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Quiz';
             });
         }
     </script>
